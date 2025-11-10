@@ -8,8 +8,6 @@ from core.cache import Cache
 from core.chapter import Chapter
 
 
-data_base_path = ""
-cache_path = ""
 schema_version = "v006"
 """
 -data_base_path is absolute path to examgoal database
@@ -39,7 +37,7 @@ State: {self.state}
 """
         return template
     
-    def __init__(self,name:str="Data Base")->None:
+    def __init__(self,data_base_path:str,name:str="Data Base")->None:
         """Initializing the DataBase"""
         cache = Cache(cache_path=cache_path,schema_version=schema_version)
 
