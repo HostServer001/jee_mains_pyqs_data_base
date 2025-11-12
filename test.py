@@ -1,7 +1,7 @@
 import os
 from core import DataBase,Filter,pdfy
 
-data_base_path = "/storage/emulated/0/db_01/jee_mains_pyqs_data_base"
+data_base_path = ""
 cache_path = f"{data_base_path}/cache"
 
 db = DataBase(data_base_path,cache_path)
@@ -31,10 +31,3 @@ def render_chap_last5yrs(chap_name:str):
         )
 
 render_chap_last5yrs("alcohols-phenols-and-ethers")
-
-# pdfy.render_cluster_to_html(
-#     filter.by_topic("pressure-density-pascals-law-and-archimedes-principle")
-#     .by_n_last_yrs(5)
-#     .cluster(),
-#     "pascal_topic_2.html"
-#     )

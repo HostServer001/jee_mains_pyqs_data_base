@@ -1,4 +1,10 @@
-# ...existing code...
+"""
+Do not run this file unless you know what you are doing
+This file genrates embeddings for the questions and create cache files
+Running this file is a computationally heavy task and waste of time.
+The precompute embeddings are provided in cache folder
+"""
+
 import time
 from core import DataBase, Cache, Filter
 import core.data_base as db_file
@@ -63,4 +69,3 @@ cache.creat_cache_pkl(embed_dict, cache_key)
 
 t2 = time.time()
 print(f"Total time: {t2 - t1:.2f}s")
-# ...existing code...
