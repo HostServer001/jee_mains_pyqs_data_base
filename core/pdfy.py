@@ -1,5 +1,5 @@
 import re
-
+from core.styles import dark_style,white_style
 
 def convert_dollar_math_to_inline(text: str) -> str:
     """
@@ -166,8 +166,6 @@ def render_to_html(question_list: list, filename: str = "questions_render.html")
     if explanation_entries:
         explanation_key_html = "<div class='explanation-section'>\n  <h3>Explanation Answer Key</h3>\n  <ol class='explanations'>\n" + "\n".join(explanation_entries) + "\n  </ol>\n</div>"
     
-    styling = """
-"""
     html = rf"""
 <!DOCTYPE html>
 <html>
@@ -410,228 +408,193 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
 
     clusters_html = "\n".join(cluster_blocks)
     summary_html = "<ul class='cluster-summary'>\n" + "\n".join(summary_entries) + "\n</ul>"
-    dark_style = """
-<style>
-  /* Excalidraw-style font */
-  @font-face {
-    font-family: "Excalifont";
-    src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Excalifont-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  body {
-    font-family: "Excalifont", "Segoe UI", Roboto, Arial, sans-serif;
-    margin: 20px;
-    background: #0f172a; /* deep navy background */
-    color: #f1f5f9;       /* light text */
-    line-height: 1.6;
-  }
-
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: #1e293b; /* slate panel */
-    padding: 24px 32px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  }
-
-  header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:16px;
-  }
-
-  h1 {
-    margin:0;
-    font-size:1.4rem;
-    color:#e2e8f0; /* light heading */
-  }
-
-  .meta {
-    color:#94a3b8;
-    font-size:0.95rem;
-  }
-
-  .cluster-summary {
-    margin:12px 0 22px 0;
-    padding-left:1.1em;
-    color:#cbd5e1;
-  }
-
-  section.cluster {
-    padding: 16px 20px;
-    border-radius: 10px;
-    border: 1px solid #334155;
-    margin-bottom: 20px;
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-  }
-
-  .cluster h3 {
-    margin: 0 0 8px 0;
-    color:#f8fafc;
-  }
-
-  .cluster-size {
-    color:#38bdf8; /* cyan accent */
-    font-weight:600;
-    font-size:0.95rem;
-    margin-left:8px;
-  }
-
-  .question-block {
-    margin-bottom: 14px;
-    padding:12px;
-    background:#0f172a;
-    border-radius:8px;
-    border:1px solid #334155;
-  }
-
-  .q-number {
-    font-weight:600;
-    margin-right:8px;
-    color:#38bdf8; /* cyan accent */
-  }
-
-  .q-text {
-    margin:6px 0;
-    line-height:1.5;
-    font-size:1.05em;
-    color:#f1f5f9;
-  }
-
-  .options {
-    padding-left:1.1em;
-    margin:6px 0;
-  }
-
-  .answer-key, .explanations {
-    padding-left:1.1em;
-    color:#cbd5e1;
-  }
-
-  .cluster-answers, .cluster-explanations {
-    margin-top:12px;
-    padding-top:10px;
-    border-top:1px dashed #475569;
-  }
-
-  /* 📱 Mobile responsiveness */
-  @media (max-width: 600px) {
-    body { margin: 10px; font-size: 0.95em; }
-    .container { padding: 16px; }
-    h1 { font-size: 1.2rem; }
-    .q-text { font-size: 1em; }
-  }
-</style>
+   
+    if mode == "dark":
+        style = dark_style
+    else:
+        style = white_style
+    html = rf"""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>{make_inline(title)}</title>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  {style}
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>{make_inline(title)}</h1>
+      <div class="meta">Total clusters: {len(cluster_dict)}, Total questions: {total_questions}</div>
+    </header>
+    <div class="summary">
+      <h4>Cluster Summary</h4>
+{summary_html}
+    </div>
+{clusters_html}
+  </div>
+</body>
+</html>
 """
-    white_style = """
-<style>
-  /* Load Excalifont (Virgil-style hand‑drawn font) */
-  @font-face {
-    font-family: "Excalifont";
-    src: url("https://excalidraw.nyc3.cdn.digitaloceanspaces.com/fonts/Excalifont-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
+    with open(filename, "w", encoding="utf-8") as f:
+    	file.write(html)
 
-  /* Apply globally */
-  body {
-    font-family: "Excalifont", "Segoe UI", Roboto, Arial, sans-serif;
-    margin: 20px;
-    background: #f4f6fb; /* keep your light background */
-    color: #111827;       /* keep your text color */
-    line-height: 1.6;
-  }
 
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 24px 32px;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(2,6,23,0.08);
-  }
+def render_cluster_to_html_skim(cluster_dict: dict, filename: str = "clusters_render.html", title: str = "Clustered Questions",mode:str="dark"):
+    """
+    Render clustered questions into an HTML file.
 
-  header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:16px;
-  }
+    - Uses convert_dollar_math_to_inline for all visible text (questions, options,
+      explanations, answer labels and cluster/summary titles).
+    - Forces any LaTeX display delimiters (\[...\]) to inline delimiters \(...\)
+      so MathJax renders everything inline.
+    - Accepts cluster keys that may be numpy integer types (e.g. np.int64).
+    """
+    def make_inline(s: str) -> str:
+        if not isinstance(s, str):
+            s = str(s)
+        # First convert $...$ / $$...$$ using existing helper
+        s = convert_dollar_math_to_inline(s)
+        # Then force any \[ ... \] to inline \( ... \) to avoid display math blocks
+        s = s.replace(r"\[", r"\(").replace(r"\]", r"\)")
+        return s
 
-  h1 {
-    margin:0;
-    font-size:1.4rem;
-    color:#0f172a; /* keep headings dark */
-  }
+    def format_correct_options(correct_options):
+        if not correct_options:
+            return ""
+        labels = []
+        for opt in correct_options:
+            if isinstance(opt, int):
+                labels.append(chr(ord("A") + opt))
+            elif isinstance(opt, str) and opt.isdigit():
+                labels.append(chr(ord("A") + int(opt)))
+            else:
+                labels.append(str(opt))
+        return ", ".join(labels)
 
-  .meta {
-    color:#6b7280;
-    font-size:0.95rem;
-  }
+    def get_answer_label(q):
+        qtype = getattr(q, "type", "") or ""
+        if isinstance(qtype, str) and qtype.lower() in ("integer", "numerical", "numeric", "number"):
+            ans = getattr(q, "answer", None)
+            if ans is not None and ans != "":
+                return make_inline(str(ans))
 
-  section.cluster {
-    padding: 16px 20px;
-    border-radius: 10px;
-    border: 1px solid #e6eef8;
-    margin-bottom: 20px;
-    background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
-  }
+        corr = getattr(q, "correct_options", None)
+        if corr:
+            if not isinstance(corr, (list, tuple)):
+                corr = [corr]
+            return format_correct_options(corr)
 
-  .cluster h3 {
-    margin: 0 0 8px 0;
-    color:#0f172a;
-  }
+        for attr in ("answer", "correct_answer", "solution", "correct"):
+            val = getattr(q, attr, None)
+            if val:
+                if isinstance(val, (list, tuple)):
+                    return format_correct_options(val)
+                return make_inline(str(val))
 
-  .question-block {
-    margin-bottom: 14px;
-    padding:12px;
-    background:#fff;
-    border-radius:8px;
-    border:1px solid #f1f5f9;
-  }
+        exp = getattr(q, "explanation", "") or ""
+        m = re.search(r'([-+]?\d+(\.\d+)?)', exp)
+        if m:
+            return m.group(1)
 
-  .q-number {
-    font-weight:600;
-    margin-right:8px;
-    color:#2563eb; /* accent color */
-  }
+        return ""
 
-  .q-text {
-    margin:6px 0;
-    line-height:1.5;
-    font-size:1.05em;
-  }
+    # Normalize and sort cluster labels; put noise (-1) last
+    labels = list(cluster_dict.keys())
+    try:
+        labels_sorted = sorted(labels, key=lambda x: (int(x) == -1, int(x)))
+    except Exception:
+        labels_sorted = sorted(labels, key=lambda x: (str(x) == "-1", str(x)))
 
-  .options {
-    padding-left:1.1em;
-    margin:6px 0;
-  }
+    cluster_blocks = []
+    summary_entries = []
+    total_questions = sum(len(v) for v in cluster_dict.values())
 
-  .answer-key, .explanations {
-    padding-left:1.1em;
-  }
+    for clabel in labels_sorted:
+        q_list = cluster_dict.get(clabel) or []
+        try:
+            clabel_int = int(clabel)
+        except Exception:
+            clabel_int = clabel
 
-  .cluster-answers, .cluster-explanations {
-    margin-top:12px;
-    padding-top:10px;
-    border-top:1px dashed #e6eef8;
-  }
+        label_title = "Noise" if clabel_int == -1 else f"Cluster {clabel_int}"
+        label_title_html = make_inline(label_title)
+        size = len(q_list)
+        summary_entries.append(f"<li><strong>{label_title_html}:</strong> {size} question(s)</li>")
 
-  /* 📱 Mobile responsiveness */
-  @media (max-width: 600px) {
-    body { margin: 10px; font-size: 0.95em; }
-    .container { padding: 16px; }
-    h1 { font-size: 1.2rem; }
-    .q-text { font-size: 1em; }
-  }
-</style>
+        q_blocks = []
+        answer_entries = []
+        explanation_entries = []
+
+        for idx, q in enumerate(q_list, start=1):
+            q_text = make_inline(getattr(q, "question", ""))
+            exam_date = getattr(q, "examDate", None)
+            exam_html = f" <span class='exam-date'>[{make_inline(exam_date)}]</span>" if exam_date else ""
+
+            options_html_items = []
+            options = getattr(q, "options", []) or []
+            for opt_i, opt in enumerate(options):
+                content = opt.get("content") if isinstance(opt, dict) else str(opt)
+                content_conv = make_inline(content)
+                options_html_items.append(f"<li class='option'>{content_conv}</li>")
+
+            options_html = ""
+            if options_html_items:
+                options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
+
+            q_block = f"""
+      <div class="question-block">
+        <div class="question-header">
+          <span class="q-number">Q{idx}.</span>{exam_html}
+        </div>
+        <div class="q-text">{q_text}</div>
+        <div class="q-options">{options_html}</div>
+        <div class="cluster-explanation"> {make_inline(getattr(q,'explanation',''))}</div>
+        </div>
+    """
+            q_blocks.append(q_block)
+
+            answer_label = make_inline(get_answer_label(q))
+            # if answer label empty, show placeholder
+            answer_entries.append(f"<li>Q{idx}: <strong>{answer_label or ''}</strong></li>")
+
+            explanation = getattr(q, "explanation", "") or ""
+            if explanation and explanation.strip():
+                explanation_html = make_inline(explanation)
+                explanation_entries.append(f"<li><strong>Q{idx}:</strong> {explanation_html}</li>")
+
+        cluster_html = f"""
+    <section class="cluster">
+      <h3>{label_title_html} <span class="cluster-size">({size})</span></h3>
+      <div class="cluster-questions">
+{"".join(q_blocks)}
+      </div>
+      <div class="cluster-answers">
+        <h4>Answer Key</h4>
+        <ol class="answer-key">
+{"".join(answer_entries)}
+        </ol>
+      </div>
 """
+        if explanation_entries:
+            cluster_html += f"""
+      <div class="cluster-explanations">
+        <h4>Explanations</h4>
+        <ol class="explanations">
+{"".join(explanation_entries)}
+        </ol>
+      </div>
+"""
+        cluster_html += "\n    </section>\n"
+        cluster_blocks.append(cluster_html)
+
+    clusters_html = "\n".join(cluster_blocks)
+    summary_html = "<ul class='cluster-summary'>\n" + "\n".join(summary_entries) + "\n</ul>"
+   
     if mode == "dark":
         style = dark_style
     else:
@@ -665,4 +628,5 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
 """
     with open(filename, "w", encoding="utf-8") as f:
         f.write(html)
+
 # ...existing code...

@@ -2,7 +2,7 @@
 This file has Question class
 """
 
-from sentence_transformers import SentenceTransformer
+#from sentence_transformers import SentenceTransformer
 
 class Question:
     """Loads data from database into inherited class variables"""

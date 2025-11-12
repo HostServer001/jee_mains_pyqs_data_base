@@ -8,8 +8,13 @@ import numpy as np
 import datetime as dt
 from typing import Self
 from core.cache import Cache
-from core.data_base import cache_path,schema_version
-from sklearn.preprocessing import StandardScaler
+#from core.data_base import cache_path,schema_version
+#from sklearn.preprocessing import StandardScaler
+
+
+data_base_path = "/storage/emulated/0/db_01/jee_mains_pyqs_data_base"
+cache_path = f"{data_base_path}/cache"
+schema_version = "v006"
 
 class Filter:
     def __init__(self,chapter_class_dict:dict)->None:
@@ -120,6 +125,13 @@ class Filter:
         self.current_set = [
             question
             for question in self.current_set if question.chapter == chapter
+        ]
+        return self
+     
+    def by_difficulty(self,difficulty:str)->Self:
+        self.current_set = [
+            question
+            for question in self.current_set if question.difficulty == difficulty
         ]
         return self
 

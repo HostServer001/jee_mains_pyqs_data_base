@@ -37,7 +37,7 @@ State: {self.state}
 """
         return template
     
-    def __init__(self,data_base_path:str,name:str="Data Base")->None:
+    def __init__(self,data_base_path:str,cache_path,name:str="Data Base")->None:
         """Initializing the DataBase"""
         cache = Cache(cache_path=cache_path,schema_version=schema_version)
 
