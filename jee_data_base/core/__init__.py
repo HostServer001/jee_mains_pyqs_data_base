@@ -10,7 +10,6 @@ print(data_base_path)
 print(cache_path)
 
 from .data_base import DataBase
-import .pdfy
 from .chapter import Chapter
 from .question import Question
 from .filter import Filter
