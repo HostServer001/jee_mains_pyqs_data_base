@@ -6,9 +6,6 @@ loc = Path(spec.origin)
 data_base_path = loc.parent
 cache_path = data_base_path/"cache"
 
-print(data_base_path)
-print(cache_path)
-
 from .data_base import DataBase
 from .chapter import Chapter
 from .question import Question

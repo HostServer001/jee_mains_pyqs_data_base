@@ -37,7 +37,7 @@ def download_cache(data_name:str)->None:
 
             file_path = cache_path/i
             with open(file_path, 'wb') as file, tqdm(
-                total=total_size, unit='B', unit_scale=True, desc=str(file_path)
+                total=total_size, unit='B', unit_scale=True, desc=str(file_path),ascii=True,miniters=1,disable=False
             ) as progress_bar:
                 for data in response.iter_content(block_size):
                     file.write(data)
