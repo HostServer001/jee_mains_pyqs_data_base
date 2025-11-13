@@ -1,5 +1,5 @@
 import os
-from core import DataBase,Filter,pdfy
+from jee_data_base.core import DataBase,Filter,pdfy
 
 data_base_path = ""
 cache_path = f"{data_base_path}/cache"

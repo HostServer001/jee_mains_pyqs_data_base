@@ -6,9 +6,11 @@ The precompute embeddings are provided in cache folder
 """
 
 import time
-from core import DataBase, Cache, Filter
-import core.data_base as db_file
-from sentence_transformers import SentenceTransformer
+from jee_data_base.core import DataBase, Cache, Filter
+import jee_data_base.core.data_base as db_file
+from sentence_transformers import SentenceTransformer 
+#instll this before and run this script
+
 
 t1 = time.time()
 

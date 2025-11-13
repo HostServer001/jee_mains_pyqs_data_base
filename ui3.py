@@ -15,11 +15,11 @@ from tkinter import ttk, filedialog, messagebox
 
 
 
-from core import DataBase, Filter,pdfy
+from jee_data_base import DataBase, Filter,pdfy
 #import pdfy
 
 APP_TITLE = "ExamGoal Explorer"
-SCHEMA_VERSION = "v004"
+SCHEMA_VERSION = "v006"
 
 # Modern appearance
 ctk.set_appearance_mode("Dark")   # "System", "Dark", "Light"
@@ -143,10 +143,7 @@ class App(ctk.CTk):
         self._set_busy(True, "Loading database...")
         def _load():
             try:
-                data_base_path = "/storage/emulated/0/db_01/jee_mains_pyqs_data_base"
-                cache_path = f"{data_base_path}/cache"
-                self.db = DataBase(data_base_path = "/storage/emulated/0/db_01/jee_mains_pyqs_data_base",
-cache_path = f"{data_base_path}/cache")
+                self.db = DataBase()
                 self.filter = Filter(self.db.chapters_dict)
                 self.after(0, self._populate_tree)
                 self.after(0, self._populate_filter_fields)
