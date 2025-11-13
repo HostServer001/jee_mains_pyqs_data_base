@@ -60,7 +60,7 @@ print(filter.get_possible_filter_values()["chapter"])
 questions = filter.by_chapter("thermodynamics").by_n_last_yrs(3).get()
 
 for q in questions:
-    print(q.statement)
+    print(q.question)
 ```
 
 ### Clustering and Rendering
@@ -70,7 +70,7 @@ for q in questions:
 filter.current_set = filter.by_chapter("organic-compounds").by_n_last_yrs(5).get()
 cluster = filter.cluster()
 
-pdfy.render_cluster_to_html_skim(
+pdfy.render_cluster_to_html(
     cluster,
     "organic_compounds.html",
     "Organic Compounds - Last 5 Years"
