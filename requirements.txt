@@ -1,0 +1,4 @@
+hdbscan
+numpy
+requests
+tqdm

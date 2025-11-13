@@ -1,5 +1,6 @@
 import re
 from .styles import dark_style,white_style
+from .html_helper import *
 
 def convert_dollar_math_to_inline(text: str) -> str:
     """
@@ -358,16 +359,8 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
             if options_html_items:
                 options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
 
-            q_block = f"""
-      <div class="question-block">
-        <div class="question-header">
-          <span class="q-number">Q{idx}.</span>{exam_html}
-        </div>
-        <div class="q-text">{q_text}</div>
-        <div class="q-options">{options_html}</div>
-      </div>
-    """
-            q_blocks.append(q_block)
+            q_block_var = q_block(idx,exam_html,q_text,options_html)
+            q_blocks.append(q_block_var)
 
             answer_label = make_inline(get_answer_label(q))
             # if answer label empty, show placeholder
@@ -386,7 +379,7 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
       </div>
       <div class="cluster-answers">
         <h4>Answer Key</h4>
-        <ol class="answer-key">
+        <ol class="answer-key" style="list-style-type: none;">
 {"".join(answer_entries)}
         </ol>
       </div>
