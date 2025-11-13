@@ -3,6 +3,7 @@ This file has the Cache class
 """
 
 import os
+import re
 import time
 import pickle
 import importlib
