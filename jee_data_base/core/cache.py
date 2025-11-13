@@ -96,12 +96,22 @@ Schema Version: {self.schema_version}
                     return _FixUnpickler(file).load()
 
         raise FileNotFoundError(f"No cache file for '{data_name}' (schema {self.schema_version})")
-    
+        
+    def is_cached(sef,data_name:str)->bool:
+        pattern = rf"^\d*-{data_name}-{self.schema_version}.pkl$"
+        cache_files_paths = os.listdir(cache_path)
+        cache_files = [Path(file).name for file in cache_files_paths]
+        health = False
+        for i in cache_files:
+            if re.search(pattern,i):
+                health = True
+        return health
+""" 
     def is_cached(self,data_name:str)->bool:
-        """Check if the data is cached and also checks the schema version
-        :param:
-        data_name: name part of the cache
-        """
+    #    Check if the data is cached and also checks the schema version
+     #   :param:
+      #  data_name: name part of the cache
+        
         cache_file_path = self.cache_path
         cache_file_paths = os.listdir(cache_file_path)
         cache_files = [Path(file).name for file in cache_file_paths]
@@ -109,3 +119,4 @@ Schema Version: {self.schema_version}
             if file_name.split("-")[1] == data_name and file_name.split("-")[-1] == f"{self.schema_version}.pkl":
                 return True
         return False
+ """
