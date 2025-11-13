@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="jee_data_base",
-    version="0.1.2.post8",
+    version="0.1.2.post9",
     packages=find_packages(),
     install_requires=[
         "hdbscan",
