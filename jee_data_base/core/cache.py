@@ -99,7 +99,7 @@ Schema Version: {self.schema_version}
         
     def is_cached(self,data_name:str)->bool:
         pattern = rf"^\d*-{data_name}-{self.schema_version}.pkl$"
-        cache_files_paths = os.listdir(cache_path)
+        cache_files_paths = os.listdir(self.cache_path)
         cache_files = [Path(file).name for file in cache_files_paths]
         health = False
         for i in cache_files:
