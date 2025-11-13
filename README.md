@@ -38,13 +38,10 @@ Navigate into the project directory and ensure dependencies are installed.
 
 ```python
 import os
-from core import DataBase, Filter, pdfy
-
-data_base_path = "path_to_data"
-cache_path = f"{data_base_path}/cache"
+from jee_data_base import DataBase, Filter, pdfy
 
 # Initialize database
-db = DataBase(data_base_path, cache_path)
+db = DataBase()
 
 # Initialize filter
 filter = Filter(db.chapters_dict)
@@ -74,7 +71,8 @@ pdfy.render_cluster_to_html(
     cluster,
     "organic_compounds.html",
     "Organic Compounds - Last 5 Years"
-)
+)# can use render_cluster_to_html_skim() function to make a file which 
+#makes a html file perfected for skiming through a chapter
 ```
 
 ### Example: Render Chapter Questions by Topic
