@@ -97,7 +97,7 @@ Schema Version: {self.schema_version}
 
         raise FileNotFoundError(f"No cache file for '{data_name}' (schema {self.schema_version})")
         
-    def is_cached(sef,data_name:str)->bool:
+    def is_cached(self,data_name:str)->bool:
         pattern = rf"^\d*-{data_name}-{self.schema_version}.pkl$"
         cache_files_paths = os.listdir(cache_path)
         cache_files = [Path(file).name for file in cache_files_paths]
