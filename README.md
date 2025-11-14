@@ -26,7 +26,7 @@ The core folder contains the following modules:
 
 * **Install using pip**:
 ```
-pip intall jee_data_base
+pip install jee_data_base
 ```
 
 * **Clone the repository**:
@@ -62,7 +62,7 @@ print(filter.get_possible_filter_values()["chapter"])
 
 ### Most useful feature
 
-```
+```python
 from jee_data_base import DataBase,Filter
 
 path = "<path where chpater folder will be created>"
@@ -126,7 +126,7 @@ render_chapter("alcohols-phenols-and-ethers")
 ## Ouput
 
 * The output will look somthing like this
-[pdf](assets/properties-of-inverse-trigonometric-functions(e5-base-v2).html)
+[![PDF Icon](assets/pdf-icon.png)](assets/pdf-file.pdf)
 
 ## Data Caches
 
