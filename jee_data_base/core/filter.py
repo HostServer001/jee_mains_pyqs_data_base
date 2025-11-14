@@ -1,15 +1,16 @@
 """
 This file has Filter class
 """
-
+import os
 import json
+from pathlib import Path
 import hdbscan
 import numpy as np
 import datetime as dt
 from typing import Self
 from .cache import Cache
-from . import cache_path
-from .data_base import schema_version
+from . import cache_path,schema_version
+from .pdfy import render_cluster_to_html_skim,render_cluster_to_html
 #from core.data_base import cache_path,schema_version
 #from sklearn.preprocessing import StandardScaler
 
@@ -136,39 +137,28 @@ class Filter:
     def get(self)->list:
         return self.current_set
     
-    # def cluster(self)->dict:
-    #     """
-    #     Clusters the current set of questions based on their embeddings using HDBSCAN.
-    #     Returns a dictionary with cluster labels as keys and lists of Question objects as values.
-    #     """
-    #     MIN_SAMPLE_SIZE  = 2
-    #     # Get embeddings for all questions in current set
-    #     embeddings = [self.embeddings_dict[question.question_id] for question in self.current_set]
-        
-    #     # Convert to numpy array
-    #     embeddings_array = np.array(embeddings)
-        
-    #     # Scale the embedding
-    #     # scaled = StandardScaler().fit_transform(embeddings_array)
-        
-    #     # Run HDBSCAN clustering
-    #     if len(embeddings) >= MIN_SAMPLE_SIZE:
-    #         clusterer = hdbscan.HDBSCAN(min_cluster_size=MIN_SAMPLE_SIZE, metric='euclidean')
-    #         cluster_labels = clusterer.fit_predict(embeddings_array)
-    #     else:
-    #         cluster = {-1:list}
-        
-    #     # Create dictionary to store clusters
-    #     clusters = {}
-        
-    #     # Group questions by cluster label
-    #     for label, question in zip(cluster_labels, self.current_set):
-    #         if label not in clusters:
-    #             clusters[label] = []
-    #         clusters[label].append(question)
-        
-    #     return clusters
-    # ...existing code...
+    def render_chap_last5yrs(destination:str,chap_name:str,skim:bool=True)->None:
+        all_q = filter.by_chapter(chap_name).by_n_last_yrs(5).get()
+        os.mkdir(str(Path(destination)/chap_name))
+        print(filter.get_possible_filter_values()["topic"])
+        for topic in filter.get_possible_filter_values()["topic"]:
+            file_path = str(Path(destination)/chap_name/f"{topic}.html")
+            filter.current_set = all_q
+            filter.by_topic(topic)
+            cluster = filter.cluster()
+            if skim:
+                render_cluster_to_html_skim(
+                    cluster,
+                    file_path,
+                    topic
+                )
+            else:
+                render_cluster_to_html(
+                    cluster,
+                    file_path,
+                    topic
+                )
+
     def cluster(self)->dict:
         """
         Cluster the current set of questions using their vector embeddings.

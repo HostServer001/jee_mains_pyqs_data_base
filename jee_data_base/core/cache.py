@@ -27,6 +27,15 @@ Schema Version: {self.schema_version}
         self.cache_path = cache_path
         self.schema_version = schema_version
     
+    def del_all_cache(self,data_name:str):
+        pattern = rf"^\d*-{data_name}-v\d*.pkl$"
+        cache_files_paths = os.listdir(self.cache_path)
+        cache_files = [Path(file).name for file in cache_files_paths]
+        for i in cache_files:
+            if re.search(pattern,i):
+                os.remove(cache_files_paths[cache_files.index(i)])
+
+    
 
     def creat_cache_pkl(self,data_dict:dict,data_name:str = "DataBaseChapters")->None:
         """Create a cache

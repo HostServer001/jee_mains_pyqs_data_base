@@ -1,9 +1,8 @@
 import re
 import os
 import sys
-from . import cache_path
+from . import cache_path,schema_version
 from pathlib import Path
-from .data_base import schema_version
 from requests import Session
 from tqdm import tqdm
 
@@ -45,7 +44,10 @@ def download_cache(data_name:str)->None:
                     progress_bar.update(len(data))
 
 
-def _get_release_files_dict(owner:str="HostServer001", repo:str="jee_mains_pyqs_data_base")->dict:
+def _get_release_files_dict(
+        owner:str="HostServer001",
+        repo:str="jee_mains_pyqs_data_base"
+        )->dict:
     url = f"https://api.github.com/repos/{owner}/{repo}/releases"
     response = session.get(
         url,

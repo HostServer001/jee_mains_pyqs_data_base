@@ -19,7 +19,7 @@ from jee_data_base import DataBase, Filter,pdfy
 #import pdfy
 
 APP_TITLE = "ExamGoal Explorer"
-SCHEMA_VERSION = "v006"
+SCHEMA_VERSION = "v007"
 
 # Modern appearance
 ctk.set_appearance_mode("Dark")   # "System", "Dark", "Light"

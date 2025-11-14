@@ -3,8 +3,10 @@ import importlib.util as lib
 
 spec = lib.find_spec("jee_data_base")
 loc = Path(spec.origin)
+
 data_base_path = loc.parent
 cache_path = data_base_path/"cache"
+schema_version = "v007"
 
 from .data_base import DataBase
 from .chapter import Chapter

@@ -189,7 +189,7 @@ def render_to_html(question_list: list, filename: str = "questions_render.html",
         f.write(html)
 
 # ...existing code...
-def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.html", title: str = "Clustered Questions",mode:str="dark"):
+def render_cluster_to_html(cluster_dict: dict, filepath: str = "clusters_render.html", title: str = "Clustered Questions",mode:str="dark"):
     """
     Render clustered questions into an HTML file.
 
@@ -317,11 +317,11 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
     else:
         style = white_style
     html = final_html_cluster(title,style,cluster_dict,total_questions,summary_html,clusters_html)
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filepath, "w", encoding="utf-8") as f:
     	f.write(html)
 
 
-def render_cluster_to_html_skim(cluster_dict: dict, filename: str = "clusters_render.html", title: str = "Clustered Questions",mode:str="dark"):
+def render_cluster_to_html_skim(cluster_dict: dict, filepath: str = "clusters_render.html", title: str = "Clustered Questions",mode:str="dark"):
     """
     Render clustered questions into an HTML file.
 
@@ -503,7 +503,7 @@ def render_cluster_to_html_skim(cluster_dict: dict, filename: str = "clusters_re
 </body>
 </html>
 """
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(html)
 
 # ...existing code...

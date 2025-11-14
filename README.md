@@ -24,7 +24,12 @@ The core folder contains the following modules:
 
 ## Installation
 
-Clone the repository:
+* **Install using pip**:
+```
+pip intall jee_data_base
+```
+
+* **Clone the repository**:
 
 ```
 git clone https://github.com/HostServer001/jee_mains_pyqs_data_base
@@ -48,6 +53,29 @@ filter = Filter(db.chapters_dict)
 
 # Inspect available chapters
 print(filter.get_possible_filter_values()["chapter"])
+```
+**Its highly recommended to filter as much as possible so that your html files open smoothly in browser**
+
+**Its always good to use the ```cluster``` method and ```render_cluster_to_html``` method to get your output, it provides the most efficeint way of practice**
+
+**The ```render_cluster_to_html_skim``` is great if you have prepared chapter loosely and want to skin thorugh and get most out of it (use it after ```cluster```)**
+
+### Most useful feature
+
+```
+from jee_data_base import DataBase,Filter
+
+path = "<path where chpater folder will be created>"
+chpater = "<your example chpater>"
+
+#Load the data base
+db = DataBase()
+
+#Initialize filter
+filter = Filter(db.chapter_dict)
+
+#Create html file
+filter.render_chap_last5yrs(path,chpater,skim=False)
 ```
 
 ### Filtering by Chapter and Year
@@ -94,6 +122,11 @@ def render_chapter(chapter_name: str):
 
 render_chapter("alcohols-phenols-and-ethers")
 ```
+
+## Ouput
+
+* The output will look somthing like this
+[pdf](assets/properties-of-inverse-trigonometric-functions(e5-base-v2).html)
 
 ## Data Caches
 

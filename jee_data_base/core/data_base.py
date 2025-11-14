@@ -6,10 +6,10 @@ This file has the DataBase class.
 import os
 from .cache import Cache
 from .chapter import Chapter
-from . import cache_path,data_base_path
+from . import cache_path,data_base_path,schema_version
+from utils import check_cache_health,download_cache
 
 
-schema_version = "v007"
 """
 -data_base_path is absolute path to examgoal database
 -cache_path is absolute path to cache
@@ -49,7 +49,17 @@ State: {self.state}
 
         subjects = os.listdir(data_base_path)
         subject_map = {i:subjects[i] for i in range(len(subjects))}
-        
+
+        db_health = check_cache_health("DataBaseChapters")
+        embedidngs_health = check_cache_health("EmbeddingsChapters")
+
+        if db_health == False:
+            cache.del_all_cache("DataBaseChapters")
+            download_cache("DataBaseChapters")
+        if embedidngs_health == False:
+            cache.del_all_cache("EmbeddingsChapters")
+            download_cache("EmbeddingsChapters")
+
         if cache.is_cached("DataBaseChapters"):
             chapter_dict = cache.load_cache_pkl("DataBaseChapters")
         else:
