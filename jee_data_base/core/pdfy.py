@@ -60,7 +60,7 @@ def conv_to_html_mathjax(text: str, filename: str = "mathjax_render.html"):
 
 
 
-def render_to_html(question_list: list, filename: str = "questions_render.html"):
+def render_to_html(question_list: list, filename: str = "questions_render.html",style:str="dark"):
     """
     Renders a list of Question objects into a styled HTML file with MathJax support.
     Each question and its options are added. An answer key section is produced at the end.
@@ -136,15 +136,7 @@ def render_to_html(question_list: list, filename: str = "questions_render.html")
         if options_html_items:
             options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
 
-        q_block = f"""
-  <div class="question-block">
-    <div class="question-header">
-      <span class="q-number">Q{idx}.</span>{exam_html}
-    </div>
-    <div class="q-text">{q_text}</div>
-    <div class="q-options">{options_html}</div>
-  </div>
-"""
+        q_block = q_block(idx,exam_html,q_text,options_html)
         q_blocks.append(q_block)
 
         # Prepare answer key entry (robust)
@@ -158,12 +150,16 @@ def render_to_html(question_list: list, filename: str = "questions_render.html")
             explanation_entries.append(f"<li><strong>Q{idx}:</strong> {explanation_html}</li>")
 
     questions_html = "\n".join(q_blocks)
-    answer_key_html = "<ol class='answer-key'>\n" + "\n".join(answer_entries) + "\n</ol>"
+    answer_key_html = "<ol class='answer-key' list-style-type=none;>\n" + "\n".join(answer_entries) + "\n</ol>"
 
     explanation_key_html = ""
     if explanation_entries:
         explanation_key_html = "<div class='explanation-section'>\n  <h3>Explanation Answer Key</h3>\n  <ol class='explanations'>\n" + "\n".join(explanation_entries) + "\n  </ol>\n</div>"
     
+    if style == "dark":
+        style_theme = dark_style
+    if style == "white":
+        style_theme == white_style
     html = rf"""
 <!DOCTYPE html>
 <html>
@@ -173,71 +169,7 @@ def render_to_html(question_list: list, filename: str = "questions_render.html")
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
-  <style>
-    body {{
-      font-family: "Segoe UI", Roboto, Arial, sans-serif;
-      margin: 30px;
-      background: #f7f8fb;
-      color: #222;
-    }}
-    .container {{
-      max-width: 900px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 24px 32px;
-      border-radius: 8px;
-      box-shadow: 0 6px 18px rgba(15,23,42,0.08);
-    }}
-    .question-block {{
-      padding: 14px 18px;
-      border-radius: 6px;
-      border: 1px solid #eef1f6;
-      margin-bottom: 16px;
-      background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
-    }}
-    .question-header {{
-      margin-bottom: 8px;
-      color: #334155;
-    }}
-    .q-number {{
-      font-weight: 600;
-      margin-right: 8px;
-    }}
-    .exam-date {{
-      color: #64748b;
-      font-size: 0.95em;
-      margin-left: 8px;
-    }}
-    .q-text {{
-      margin-bottom: 10px;
-      line-height: 1.5;
-      font-size: 1.03em;
-    }}
-    .options {{
-      margin: 0;
-      padding-left: 1.1em;
-    }}
-    .option {{
-      margin: 6px 0;
-    }}
-    .answer-section {{
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px dashed #e6eef8;
-    }}
-    .answer-key {{
-      padding-left: 1.1em;
-      list-style-type:None;
-    }}
-    .explanation-section {{
-      margin-top: 18px;
-      padding-top: 12px;
-      border-top: 1px dashed #e6eef8;
-    }}
-    .explanations {{
-      padding-left: 1.1em;
-    }}
-  </style>
+  {style_theme}
 </head>
 <body>
   <div class="container">
@@ -371,28 +303,9 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
                 explanation_html = make_inline(explanation)
                 explanation_entries.append(f"<li><strong>Q{idx}:</strong> {explanation_html}</li>")
 
-        cluster_html = f"""
-    <section class="cluster">
-      <h3>{label_title_html} <span class="cluster-size">({size})</span></h3>
-      <div class="cluster-questions">
-{"".join(q_blocks)}
-      </div>
-      <div class="cluster-answers">
-        <h4>Answer Key</h4>
-        <ol class="answer-key" style="list-style-type: none;">
-{"".join(answer_entries)}
-        </ol>
-      </div>
-"""
+        cluster_html = cluster_html(label_title_html,size,q_blocks,answer_entries)
         if explanation_entries:
-            cluster_html += f"""
-      <div class="cluster-explanations">
-        <h4>Explanations</h4>
-        <ol class="explanations">
-{"".join(explanation_entries)}
-        </ol>
-      </div>
-"""
+            cluster_html += explnation_html(explanation_entries)
         cluster_html += "\n    </section>\n"
         cluster_blocks.append(cluster_html)
 
@@ -403,33 +316,7 @@ def render_cluster_to_html(cluster_dict: dict, filename: str = "clusters_render.
         style = dark_style
     else:
         style = white_style
-    html = rf"""<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <title>{make_inline(title)}</title>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-  {style}
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>{make_inline(title)}</h1>
-      <div class="meta">Total clusters: {len(cluster_dict)}, Total questions: {total_questions}</div>
-    </header>
-    <div class="summary">
-      <h4>Cluster Summary</h4>
-{summary_html}
-    </div>
-{clusters_html}
-  </div>
-</body>
-</html>
-"""
+    html = final_html_cluster(title,style,cluster_dict,total_questions,summary_html,clusters_html)
     with open(filename, "w", encoding="utf-8") as f:
     	f.write(html)
 

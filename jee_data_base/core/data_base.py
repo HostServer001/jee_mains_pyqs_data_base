@@ -8,7 +8,8 @@ from .cache import Cache
 from .chapter import Chapter
 from . import cache_path,data_base_path
 
-schema_version = "v006"
+
+schema_version = "v007"
 """
 -data_base_path is absolute path to examgoal database
 -cache_path is absolute path to cache
