@@ -126,7 +126,7 @@ render_chapter("alcohols-phenols-and-ethers")
 ## Ouput
 
 * The output will look somthing like this
-[![PDF Icon](assets/pdf-icon.png)](assets/pdf-file.pdf)
+[PDF 📄](assets/pdf-file.pdf)
 
 ## Data Caches
 
