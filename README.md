@@ -5,7 +5,7 @@ This project provides a structured database of more than 14,000 previous year qu
 ## Features
 
 * Access to 14k+ JEE Mains PYQS  
-* Precomputed embeddings using the `intfloat/e5-base-v2` model for efficient clustering  
+* Precomputed embeddings using the `intfloat/e5-large-v2` model for efficient clustering  
 * Cluster similar questions together based on semantic embeddings  
 * Apply chainable filters (by chapter, topic, year, etc.)  
 * Render filtered or clustered questions into HTML using themed styles  
