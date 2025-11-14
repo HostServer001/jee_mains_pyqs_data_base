@@ -7,7 +7,7 @@ import os
 from .cache import Cache
 from .chapter import Chapter
 from . import cache_path,data_base_path,schema_version
-from utils import check_cache_health,download_cache
+from .utils import check_cache_health,download_cache
 
 
 """
