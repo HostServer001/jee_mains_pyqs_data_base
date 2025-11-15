@@ -21,6 +21,7 @@ def check_cache_health(data_name:str)->bool:
 
 def download_cache(data_name:str)->None:
     pattern = rf"\d*-{data_name}-{schema_version}.pkl"
+    cache_file_dict = None
     for i in range(5):
         try:    
             cache_file_dict = _get_release_files_dict()
