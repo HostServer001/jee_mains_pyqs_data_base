@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jee_data_base"
-version = "0.1.4.post2"
+version = "0.1.4.post3"
 description = "JEE Mains PYQS data base"
 authors = [{ name="HostServer001", email="jarvisuserbot@gmail.com" }]
 readme = "README.md"
