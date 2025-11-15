@@ -33,7 +33,7 @@ Schema Version: {self.schema_version}
         cache_files = [Path(file).name for file in cache_files_paths]
         for i in cache_files:
             if re.search(pattern,i):
-                os.remove(cache_files_paths[cache_files.index(i)])
+                os.remove(cache_files_paths[cache_files_paths.index(i)])
 
     
 
