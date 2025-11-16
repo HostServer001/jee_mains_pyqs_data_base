@@ -59,6 +59,7 @@ def test_full_pipeline():
         assert os.path.getsize(out) > 10
     
     with tempfile.TemporaryDirectory() as td:
+        f.reset()
         out = os.path.join(td,"alcohols-phenols-and-ethers")
         f.render_chap_last5yrs(td,"alcohols-phenols-and-ethers",skim=False)
 

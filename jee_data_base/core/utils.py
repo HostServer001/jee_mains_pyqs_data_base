@@ -22,8 +22,8 @@ def check_cache_health(data_name:str)->bool:
 def download_cache(data_name:str)->None:
     pattern = rf"\d*-{data_name}-{schema_version}.pkl"
     cache_file_dict = {
-        f"123-DataBaseChapters-v{schema_version}.pkl":DATABASE_LINK,
-        f"123-EmbeddingsChapters-v{schema_version}.pkl":EMBEDDINGS_LINK
+        f"123-DataBaseChapters-{schema_version}.pkl":DATABASE_LINK,
+        f"123-EmbeddingsChapters-{schema_version}.pkl":EMBEDDINGS_LINK
     }
     # for i in range(5):
     #     try:    

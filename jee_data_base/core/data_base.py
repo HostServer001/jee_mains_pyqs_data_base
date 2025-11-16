@@ -52,7 +52,7 @@ State: {self.state}
 
         db_health = check_cache_health("DataBaseChapters")
         embedidngs_health = check_cache_health("EmbeddingsChapters")
-
+        
         if db_health == False:
             cache.del_all_cache("DataBaseChapters")
             download_cache("DataBaseChapters")
