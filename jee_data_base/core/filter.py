@@ -137,15 +137,15 @@ class Filter:
     def get(self)->list:
         return self.current_set
     
-    def render_chap_last5yrs(destination:str,chap_name:str,skim:bool=True)->None:
-        all_q = filter.by_chapter(chap_name).by_n_last_yrs(5).get()
+    def render_chap_last5yrs(self,destination:str,chap_name:str,skim:bool=True)->None:
+        all_q = self.by_chapter(chap_name).by_n_last_yrs(5).get()
         os.mkdir(str(Path(destination)/chap_name))
-        print(filter.get_possible_filter_values()["topic"])
-        for topic in filter.get_possible_filter_values()["topic"]:
+        print(self.get_possible_filter_values()["topic"])
+        for topic in self.get_possible_filter_values()["topic"]:
             file_path = str(Path(destination)/chap_name/f"{topic}.html")
-            filter.current_set = all_q
-            filter.by_topic(topic)
-            cluster = filter.cluster()
+            self.current_set = all_q
+            self.by_topic(topic)
+            cluster = self.cluster()
             if skim:
                 render_cluster_to_html_skim(
                     cluster,

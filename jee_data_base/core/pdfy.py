@@ -136,7 +136,7 @@ def render_to_html(question_list: list, filename: str = "questions_render.html",
         if options_html_items:
             options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
 
-        q_block = q_block(idx,exam_html,q_text,options_html)
+        q_block = q_block_fx(idx,exam_html,q_text,options_html)
         q_blocks.append(q_block)
 
         # Prepare answer key entry (robust)
@@ -291,7 +291,7 @@ def render_cluster_to_html(cluster_dict: dict, filepath: str = "clusters_render.
             if options_html_items:
                 options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
 
-            q_block_var = q_block(idx,exam_html,q_text,options_html)
+            q_block_var = q_block_fx(idx,exam_html,q_text,options_html)
             q_blocks.append(q_block_var)
 
             answer_label = make_inline(get_answer_label(q))
@@ -303,9 +303,9 @@ def render_cluster_to_html(cluster_dict: dict, filepath: str = "clusters_render.
                 explanation_html = make_inline(explanation)
                 explanation_entries.append(f"<li><strong>Q{idx}:</strong> {explanation_html}</li>")
 
-        cluster_html = cluster_html(label_title_html,size,q_blocks,answer_entries)
+        cluster_html = cluster_html_fx(label_title_html,size,q_blocks,answer_entries)
         if explanation_entries:
-            cluster_html += explnation_html(explanation_entries)
+            cluster_html += explnation_html_fx(explanation_entries)
         cluster_html += "\n    </section>\n"
         cluster_blocks.append(cluster_html)
 
@@ -316,7 +316,7 @@ def render_cluster_to_html(cluster_dict: dict, filepath: str = "clusters_render.
         style = dark_style
     else:
         style = white_style
-    html = final_html_cluster(title,style,cluster_dict,total_questions,summary_html,clusters_html)
+    html = final_html_cluster_fx(title,style,cluster_dict,total_questions,summary_html,clusters_html)
     with open(filepath, "w", encoding="utf-8") as f:
     	f.write(html)
 
@@ -423,16 +423,7 @@ def render_cluster_to_html_skim(cluster_dict: dict, filepath: str = "clusters_re
             if options_html_items:
                 options_html = "<ol class='options' type='A'>\n" + "\n".join(options_html_items) + "\n</ol>"
 
-            q_block = f"""
-      <div class="question-block">
-        <div class="question-header">
-          <span class="q-number">Q{idx}.</span>{exam_html}
-        </div>
-        <div class="q-text">{q_text}</div>
-        <div class="q-options">{options_html}</div>
-        <div class="cluster-explanation"> {make_inline(getattr(q,'explanation',''))}</div>
-        </div>
-    """
+            q_block = q_block_fx(idx,exam_html,q_text,options_html)
             q_blocks.append(q_block)
 
             answer_label = make_inline(get_answer_label(q))
@@ -444,19 +435,7 @@ def render_cluster_to_html_skim(cluster_dict: dict, filepath: str = "clusters_re
                 explanation_html = make_inline(explanation)
                 explanation_entries.append(f"<li><strong>Q{idx}:</strong> {explanation_html}</li>")
 
-        cluster_html = f"""
-    <section class="cluster">
-      <h3>{label_title_html} <span class="cluster-size">({size})</span></h3>
-      <div class="cluster-questions">
-{"".join(q_blocks)}
-      </div>
-      <div class="cluster-answers">
-        <h4>Answer Key</h4>
-        <ol class="answer-key">
-{"".join(answer_entries)}
-        </ol>
-      </div>
-"""
+        cluster_html = cluster_html_fx(label_title_html,size,q_blocks,answer_entries)
         if explanation_entries:
             cluster_html += f"""
       <div class="cluster-explanations">

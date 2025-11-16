@@ -23,7 +23,7 @@ def make_inline(s: str) -> str:
         s = s.replace(r"\[", r"\(").replace(r"\]", r"\)")
         return s
 
-def q_block(idx,exam_html,q_text,options_html):
+def q_block_fx(idx,exam_html,q_text,options_html):
     q_block = f"""
       <div class="question-block">
         <div class="question-header">
@@ -35,7 +35,7 @@ def q_block(idx,exam_html,q_text,options_html):
     """
     return q_block
 
-def cluter_html(label_title_html,size,q_blocks,answer_entries):
+def cluster_html_fx(label_title_html,size,q_blocks,answer_entries):
    cluster_html = f"""
 <section class="cluster">
   <h3>{label_title_html} <span class="cluster-size">({size})</span></h3>
@@ -51,7 +51,7 @@ def cluter_html(label_title_html,size,q_blocks,answer_entries):
 """
    return cluster_html
 
-def explnation_html(explanation_entries):
+def explnation_html_fx(explanation_entries):
     explnation_html = f"""
       <div class="cluster-explanations">
         <h4>Explanations</h4>
@@ -62,7 +62,7 @@ def explnation_html(explanation_entries):
 """
     return explnation_html
 
-def final_html_cluster(title,style,cluster_dict,total_questions,summary_html,clusters_html):
+def final_html_cluster_fx(title,style,cluster_dict,total_questions,summary_html,clusters_html):
     final_html = rf"""<!DOCTYPE html>
 <html>
 <head>
@@ -90,4 +90,5 @@ def final_html_cluster(title,style,cluster_dict,total_questions,summary_html,clu
 </body>
 </html>
 """
+    return final_html
     

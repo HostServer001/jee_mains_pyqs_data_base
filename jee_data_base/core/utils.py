@@ -1,7 +1,7 @@
 import re
 import os
 import sys
-from . import cache_path,schema_version
+from . import cache_path,schema_version,EMBEDDINGS_LINK,DATABASE_LINK
 from pathlib import Path
 from requests import Session
 from tqdm import tqdm
@@ -21,15 +21,18 @@ def check_cache_health(data_name:str)->bool:
 
 def download_cache(data_name:str)->None:
     pattern = rf"\d*-{data_name}-{schema_version}.pkl"
-    cache_file_dict = None
-    for i in range(5):
-        try:    
-            cache_file_dict = _get_release_files_dict()
-            break
-        except Exception as e:
-            print(e)
-    if cache_file_dict == None:
-        return None            
+    cache_file_dict = {
+        f"123-DataBaseChapters-v{schema_version}":DATABASE_LINK,
+        f"123-EmbeddingsChapters-v{schema_version}":EMBEDDINGS_LINK
+    }
+    # for i in range(5):
+    #     try:    
+    #         cache_file_dict = _get_release_files_dict()
+    #         break
+    #     except Exception as e:
+    #         print(e)
+    # if cache_file_dict == None:
+    #     return None            
     for i in cache_file_dict.keys():
         if re.search(pattern,i):
             response = session.get(cache_file_dict[i], stream=True)
