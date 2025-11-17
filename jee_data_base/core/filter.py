@@ -141,7 +141,10 @@ class Filter:
     
     async def convert_html_to_pdf(self,html_file_path,print_backgroud:bool=True)->str:
         pdf_file_path = f"{str(html_file_path).split('.')[0]}.pdf"
-        browser = await launch(headless=True)
+        browser = await launch(headless=True,
+                               args=['--no-sandbox', '--disable-setuid-sandbox']
+                               )
+
         page = await browser.newPage()
         await page.goto(f"file://{html_file_path}")
         await page.pdf({
@@ -176,7 +179,7 @@ class Filter:
                 )
             pdf_file = await self.convert_html_to_pdf(html_file)
             pdf_files.append(pdf_file)
-        return pdf_file
+        return pdf_files
             
             
 
