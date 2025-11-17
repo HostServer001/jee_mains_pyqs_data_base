@@ -143,9 +143,9 @@ class Filter:
         pdf_file_path = f"{str(html_file_path).split('.')[0]}.pdf"
         browser = await launch(headless=True)
         page = await browser.newPage()
-        await page.goto(html_file_path)
+        await page.goto(f"file://{html_file_path}")
         await page.pdf({
-            'path': f"file://{pdf_file_path}",
+            'path': pdf_file_path,
             'format': 'A4',
             'printBackground': print_backgroud,
         })
@@ -174,7 +174,7 @@ class Filter:
                     file_path,
                     topic
                 )
-            pdf_file = asyncio.get_event_loop().run_until_complete(self.convert_html_to_pdf(html_file))
+            pdf_file = await self.convert_html_to_pdf(html_file)
             pdf_files.append(pdf_file)
         return pdf_file
             
