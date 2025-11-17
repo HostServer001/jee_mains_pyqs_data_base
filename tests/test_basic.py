@@ -1,5 +1,6 @@
 import os
 import tempfile
+import asyncio
 from jee_data_base import DataBase, Filter, pdfy
 
 
@@ -61,7 +62,7 @@ def test_full_pipeline():
     with tempfile.TemporaryDirectory() as td:
         f.reset()
         out = os.path.join(td,"alcohols-phenols-and-ethers")
-        f.render_chap_last5yrs(td,"alcohols-phenols-and-ethers",skim=False)
+        asyncio.run(f.render_chap_last5yrs(td,"alcohols-phenols-and-ethers",skim=False))
 
         assert os.path.exists(out)
         assert len(os.listdir(out)) > 0

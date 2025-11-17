@@ -3,6 +3,8 @@ This file has Filter class
 """
 import os
 import json
+import asyncio
+from pyppeteer import launch
 from pathlib import Path
 import hdbscan
 import numpy as np
@@ -137,27 +139,46 @@ class Filter:
     def get(self)->list:
         return self.current_set
     
-    def render_chap_last5yrs(self,destination:str,chap_name:str,skim:bool=True)->None:
+    async def convert_html_to_pdf(self,html_file_path,print_backgroud:bool=True)->str:
+        pdf_file_path = f"{str(html_file_path).split('.')[0]}.pdf"
+        browser = await launch(headless=True)
+        page = await browser.newPage()
+        await page.goto(html_file_path)
+        await page.pdf({
+            'path': f"file://{pdf_file_path}",
+            'format': 'A4',
+            'printBackground': print_backgroud,
+        })
+        
+        await browser.close()
+        return pdf_file_path
+
+    async def render_chap_last5yrs(self,destination:str,chap_name:str,skim:bool=True)->None:
         all_q = self.by_chapter(chap_name).by_n_last_yrs(5).get()
-        os.mkdir(str(Path(destination)/chap_name))
-        print(self.get_possible_filter_values()["topic"])
+        os.makedirs(str(Path(destination)/chap_name),exist_ok=True)
+        pdf_files = []
         for topic in self.get_possible_filter_values()["topic"]:
             file_path = str(Path(destination)/chap_name/f"{topic}.html")
             self.current_set = all_q
             self.by_topic(topic)
             cluster = self.cluster()
             if skim:
-                render_cluster_to_html_skim(
+                html_file = render_cluster_to_html_skim(
                     cluster,
                     file_path,
                     topic
                 )
             else:
-                render_cluster_to_html(
+                html_file = render_cluster_to_html(
                     cluster,
                     file_path,
                     topic
                 )
+            pdf_file = asyncio.get_event_loop().run_until_complete(self.convert_html_to_pdf(html_file))
+            pdf_files.append(pdf_file)
+        return pdf_file
+            
+            
 
     def cluster(self)->dict:
         """
