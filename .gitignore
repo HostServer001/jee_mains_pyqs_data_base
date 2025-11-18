@@ -1,0 +1,8 @@
+dist/
+__pycache__/
+jee_data_base/cache/
+jee_data_base.egg-info/
+*.pkl
+*.pyc
+*.pyo
+*.pyd
