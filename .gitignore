@@ -6,3 +6,4 @@ jee_data_base.egg-info/
 *.pyc
 *.pyo
 *.pyd
+\[ignore\]*
