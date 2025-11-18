@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jee_data_base"
+version = "0.1.6.post2"
+description = "JEE Mains PYQS data base"
+authors = [{ name="HostServer001", email="jarvisuserbot@gmail.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = ["hdbscan","numpy","requests","tqdm","pyppeteer"]
+requires-python = ">=3.11"
+
+[tool.setuptools]
+include-package-data = true
