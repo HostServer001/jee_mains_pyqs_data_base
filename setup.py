@@ -1,13 +1,5 @@
-import sys
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-import subprocess
 
-class PostInstallCommand(install):
-    def run(self):
-        install.run(self)
-        # subprocess.check_call([sys.executable, "-m", "pip", "install", "playwright>=1.56.0"])
-        subprocess.check_call(["playwright","install","chromium"])
 
 setup(
     name="jee_data_base",
@@ -26,8 +18,5 @@ setup(
     author="HostServer001",
     author_email="jarvisuserbot@gmail.com",
     url="https://github.com/HostServer001/jee_mains_pyqs_data_base",
-    include_package_data=True,
-    cmdclass={
-        "install":PostInstallCommand,
-    }
+    include_package_data=True
 )

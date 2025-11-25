@@ -25,9 +25,13 @@ The core folder contains the following modules:
 ## Installation
 
 * **Install using pip**:
+* Install the package
 ```
 pip install jee_data_base
 ```
+
+* Install chromium 
+```plawright install chromium```
 
 * **Clone the repository**:
 
