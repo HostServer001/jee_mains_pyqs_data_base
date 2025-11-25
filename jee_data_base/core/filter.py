@@ -1,22 +1,13 @@
 """
 This file has Filter class
 """
-import base64
+
 import os
-import re
 import time
 import json
-import asyncio
-import tempfile
-import traceback
-import functools
-import http.server
-import socketserver
 from .pdf_engine import PdfEngine
 from urllib.parse import urlparse
-import httpx
 from pyppeteer import launch
-import playwright
 from pathlib import Path
 import hdbscan
 import numpy as np

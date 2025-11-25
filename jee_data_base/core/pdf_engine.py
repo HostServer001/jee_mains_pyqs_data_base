@@ -1,11 +1,11 @@
 import uuid
 import PyPDF2
-import asyncio
 import tempfile
 from pathlib import Path
 from bs4 import BeautifulSoup
 from playwright import async_api
 from jee_data_base.core.types import HtmlLike
+from playwright._impl._errors import Error
 
 class PdfEngine:
     def __init__(self,html):
@@ -73,7 +73,19 @@ class PdfEngine:
         clusters = self._get_cluster_list()
         
         p =  await async_api.async_playwright().start()
-        browser = await p.chromium.launch(headless=True)
+        try:
+            #for normal users
+            browser = await p.chromium.launch(headless=True)
+        except Error as e:
+            #for ci/cd pipeline and for environments which
+            #do do not support sandboxxing
+            browser = await p.chromium.launch(
+                headless=True,
+                args=[
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox"
+                    ]
+                    )
         
         pdf_list = []
         for cluster in clusters:
