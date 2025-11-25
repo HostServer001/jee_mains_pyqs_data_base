@@ -6,8 +6,6 @@ import os
 import time
 import json
 from .pdf_engine import PdfEngine
-from urllib.parse import urlparse
-from pyppeteer import launch
 from pathlib import Path
 import hdbscan
 import numpy as np
