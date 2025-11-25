@@ -6,12 +6,12 @@ import subprocess
 class PostInstallCommand(install):
     def run(self):
         install.run(self)
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "playwright>=1.56.0"])
+        # subprocess.check_call([sys.executable, "-m", "pip", "install", "playwright>=1.56.0"])
         subprocess.check_call(["playwright","install","chromium"])
 
 setup(
     name="jee_data_base",
-    version="0.2.1.post1",
+    version="0.2.1.post2",
     packages=find_packages(),
     install_requires = [
     "playwright>=1.56.0",
