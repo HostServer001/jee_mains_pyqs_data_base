@@ -1,9 +1,10 @@
 dist/
 __pycache__/
 jee_data_base/cache/
-jee_data_base.egg-info/
+*.egg-info/
 *.pkl
 *.pyc
 *.pyo
 *.pyd
 \[ignore\]*
+.pytest_cache

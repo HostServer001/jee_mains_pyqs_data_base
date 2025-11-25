@@ -1,12 +1,22 @@
 """
 This file has Filter class
 """
+import base64
 import os
+import re
 import time
 import json
 import asyncio
 import tempfile
+import traceback
+import functools
+import http.server
+import socketserver
+from .pdf_engine import PdfEngine
+from urllib.parse import urlparse
+import httpx
 from pyppeteer import launch
+import playwright
 from pathlib import Path
 import hdbscan
 import numpy as np
@@ -140,28 +150,6 @@ class Filter:
 
     def get(self)->list:
         return self.current_set
-    
-    async def _convert_html_to_pdf(self,html,pdf_file_path,print_backgroud:bool=True)->str:
-        with tempfile.TemporaryDirectory() as td:
-            html_file_path = os.path.join(td,"temp.html")
-            with open(html_file_path,"w",encoding="utf-8") as html_file:
-                html_file.write(html)
-
-            browser = await launch(headless=True,
-                                args=['--no-sandbox', '--disable-setuid-sandbox']
-                                )
-
-            page = await browser.newPage()
-            await page.goto(f"file://{html_file_path}")
-            await page.waitForSelector("img")
-            await page.pdf({
-                'path': pdf_file_path,
-                'format': 'A4',
-                'printBackground': print_backgroud,
-            })
-                
-            await browser.close()
-            return pdf_file_path
 
     async def render_chap_lastNyrs(
             self,
@@ -225,7 +213,7 @@ class Filter:
         - title: title of html
         """
         if title == False:
-            title = f"Rendered_{str(time.now()).split('.')[0]}"
+            title = f"Rendered_{str(time.time()).split('.')[0]}"
         if output_file_format not in ("html","pdf"):
             raise ValueError("We don't support this file format. Supported file formats are 'html','pdf'")
         
@@ -250,6 +238,7 @@ class Filter:
         
         file_path = Path(file_path).resolve()
         final_path = self.get_final_path(file_path,title,output_file_format)
+
         
         if output_file_format == "html":
             with open(final_path,"w",encoding="utf-8")as file:
@@ -257,7 +246,9 @@ class Filter:
             return final_path
         
         if output_file_format == "pdf":
-            await self._convert_html_to_pdf(html,final_path)
+            pdf_engine = PdfEngine(html)
+            # await self._convert_html_to_pdf_with_images(html,final_path)
+            await pdf_engine.render(final_path)
             return final_path
 
 

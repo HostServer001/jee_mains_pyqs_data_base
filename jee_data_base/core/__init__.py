@@ -13,6 +13,7 @@ DATABASE_LINK = "https://github.com/HostServer001/jee_mains_pyqs_data_base/relea
 from .data_base import DataBase
 from .chapter import Chapter
 from .question import Question
+from .pdf_engine import PdfEngine
 from .filter import Filter
 from .cache import Cache
 from .utils import *

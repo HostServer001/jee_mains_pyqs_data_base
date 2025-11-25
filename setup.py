@@ -2,15 +2,17 @@ from setuptools import setup, find_packages
 
 setup(
     name="jee_data_base",
-    version="0.1.6.post2",
+    version="0.2.0",
     packages=find_packages(),
-    install_requires=[
-        "hdbscan",
-        "numpy",
-        "requests",
-        "tqdm",
-        "pyppeteer"
-        ],  # Example dependency
+    install_requires = [
+    "playwright>=1.56.0",
+    "hdbscan>=0.8.40",
+    "numpy>=2.3.3",
+    "requests>=2.32.5",
+    "tqdm>=4.67.1",
+    "PyPDF2>=3.0.1",
+    "beautifulsoup4>=4.14.2"
+    ],
     description="JEE Mains PYQS data base",
     author="HostServer001",
     author_email="jarvisuserbot@gmail.com",

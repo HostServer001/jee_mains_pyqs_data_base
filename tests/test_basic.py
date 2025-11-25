@@ -51,13 +51,11 @@ def test_full_pipeline():
     # --- Step 5: Render HTML ---
     with tempfile.TemporaryDirectory() as td:
         out = os.path.join(td, "test.html")
-        pdfy.render_cluster_to_html_skim(cluster, out, "Test Title")
+        html = pdfy.get_cluster_html(cluster, out, "Test Title")
 
         # html file must exist
-        assert os.path.exists(out)
+        assert len(html) > 10
 
-        # and be non-empty
-        assert os.path.getsize(out) > 10
     
     with tempfile.TemporaryDirectory() as td:
         f.reset()

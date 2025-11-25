@@ -64,6 +64,7 @@ print(filter.get_possible_filter_values()["chapter"])
 
 ```python
 from jee_data_base import DataBase,Filter
+import asyncio
 
 path = "<path where chpater folder will be created>"
 chpater = "<your example chpater>"
@@ -75,7 +76,7 @@ db = DataBase()
 filter = Filter(db.chapter_dict)
 
 #Create html file
-filter.render_chap_last5yrs(path,chpater,skim=False)
+asyncio.run(filter.render_chap_last5yrs(path,chpater,skim=False,output_file_format="pdf"))
 ```
 
 ### Filtering by Chapter and Year
